@@ -3,7 +3,7 @@ targetScope = 'resourceGroup'
 param name string
 param tags object = {
   provisioner: 'bicep'
-  source: 'github.com/rjfmachado/infra/dns'
+  source: 'github.com/rjfmachado/bicepregistry/dns/privatezonevnetlink'
 }
 
 param linkedVirtualNetworks array = [

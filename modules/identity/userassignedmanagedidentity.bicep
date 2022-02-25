@@ -4,7 +4,7 @@ param name string
 param location string = resourceGroup().location
 param tags object = {
   provisioner: 'bicep'
-  source: 'github.com/rjfmachado/infra/identity'
+  source: 'github.com/rjfmachado/bicepregistry/identity/userassigned'
 }
 
 resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {

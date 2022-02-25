@@ -1,8 +1,9 @@
 param name string
 param location string = resourceGroup().location
+
 param tags object = {
   provisioner: 'bicep'
-  source: 'github.com/rjfmachado/infra/aks'
+  source: 'github.com/rjfmachado/bicepregistry/aks/public-cni-rbac'
 }
 
 param clusterVersion string = '1.21.2'

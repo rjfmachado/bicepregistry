@@ -4,7 +4,7 @@ param name string
 param location string = resourceGroup().location
 param tags object = {
   provisioner: 'bicep'
-  source: 'github.com/rjfmachado/infra/appgateway'
+  source: 'github.com/rjfmachado/bicepregistry/appgateway/public-waf'
 }
 param identityProfile object = {
   type: 'SystemAssigned'
