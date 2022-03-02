@@ -17,11 +17,22 @@ jobs:
     name: 'Publish module'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: 'Publish module'
-        uses: ./.github/templates/publishmodule
-        with:
-          templateFilePath: '${{ env.modulePath }}/standard.bicep'
+      - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 'Run az commands'
+        run: |
+          az account show
+          az group list
+      # - name: 'Checkout'
+      #   uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
+      # - name: 'Publish module'
+      #   uses: ./.github/templates/publishmodule
+      #   with:
+      #     templateFilePath: '${{ env.modulePath }}/standard.bicep'
