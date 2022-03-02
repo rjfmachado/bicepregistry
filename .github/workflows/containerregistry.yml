@@ -8,12 +8,8 @@ on:
     paths:
       - 'modules/acr/**'
 
-env:
-  modulepath: 'modules/acr'
-
 jobs:
-
-  job_publish_module:
+  deploy:
     name: 'Publish module'
     runs-on: ubuntu-latest
     steps:
@@ -35,4 +31,4 @@ jobs:
       # - name: 'Publish module'
       #   uses: ./.github/templates/publishmodule
       #   with:
-      #     templateFilePath: '${{ env.modulePath }}/standard.bicep'
+      #     templateFilePath: 'modules/acr/standard.bicep'
