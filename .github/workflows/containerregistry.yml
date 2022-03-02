@@ -1,0 +1,27 @@
+name: 'Container Registry'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'modules/acr/**'
+
+env:
+  modulepath: 'modules/acr'
+
+jobs:
+
+  job_publish_module:
+    name: 'Publish module'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: 'Publish module'
+        uses: ./.github/templates/publishmodule
+        with:
+          templateFilePath: '${{ env.modulePath }}/standard.bicep'
