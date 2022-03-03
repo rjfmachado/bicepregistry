@@ -1,5 +1,5 @@
 GH_ORG='rjfmachado'
-GH_REPO='infra'
+GH_REPO='bicepregistry'
 GH_ENTITY_TYPE='Branch'
 GH_ENTITY_NAME='main'
 RG_NAME='ricardmabicep'
@@ -21,6 +21,8 @@ az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_
 #setup a Service Principal in the app, it's required for Azure RBAC. Note there's no secret
 az ad sp create --id $AAD_APP_APPID -o none
 AAD_APP_SPID=$(az ad sp list --display-name $AAD_APP_NAME -o tsv --query [].objectId)
+
+gh secret set AZURE_CLIENT_ID --body "$AAD_APP_SPID" --repo $GH_ORG/$GH_REPO
 
 #Setup the ACR and allow acrpush RBAC access from the GH repo
 az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_APP_SPID roleDefinitionIdOrName=acrPush --query outputs
