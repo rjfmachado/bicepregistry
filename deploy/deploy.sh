@@ -26,7 +26,7 @@ gh secret set AZURE_CLIENT_ID --body "$AAD_APP_SPID" --repo $GH_ORG/$GH_REPO
 
 #Setup the ACR and allow acrpush RBAC access from the GH repo
 az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_APP_SPID roleDefinitionIdOrName=acrPush --query outputs
-
+az role assignment create --assignee $AAD_APP_SPID --role "Reader"
 #Cleanup
 #az group delete -n $RG_NAME --yes
 #AAD_APP_APPID=$(az ad app list --display-name $AAD_APP_NAME -o tsv --query [].appId)
