@@ -26,7 +26,7 @@ az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_
 az ad sp create --id $AAD_APP_APPID -o none
 AAD_APP_SPID=$(az ad sp list --display-name $AAD_APP_NAME -o tsv --query [].objectId)
 
-gh secret set AZURE_CLIENT_ID --body "$AAD_APP_SPID" --repo $GH_ORG/$GH_REPO
+gh secret set AZURE_CLIENT_ID --body "$AAD_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
 
