@@ -46,7 +46,7 @@ resource acr 'Microsoft.ContainerRegistry/registries@2021-09-01' = {
   properties: {}
 }
 
-resource roleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-preview' = {
+resource acrroleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-preview' = {
   name: guid(acr.name, principalId, roleDefinitionIdOrName)
   properties: {
     roleDefinitionId: contains(builtInRoleNames, roleDefinitionIdOrName) ? builtInRoleNames[roleDefinitionIdOrName] : roleDefinitionIdOrName
@@ -54,6 +54,16 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-prev
     principalType: 'servicePrincipal'
   }
   scope: acr
+}
+
+resource rgroleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-preview' = {
+  name: guid(resourceGroup().name, principalId, 'Reader')
+  properties: {
+    roleDefinitionId: builtInRoleNames.Reader
+    principalId: principalId
+    principalType: 'servicePrincipal'
+  }
+  scope: resourceGroup()
 }
 
 output name string = acr.name
