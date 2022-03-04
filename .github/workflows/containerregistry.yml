@@ -5,9 +5,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'workflows/containerregistry.yml'
-      - 'modules/acr/**'
+
+permissions:
+      id-token: write
+      contents: read
 
 jobs:
   deploy:
