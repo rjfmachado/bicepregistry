@@ -24,10 +24,12 @@ az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_
 az ad sp create --id $AAD_APP_APPID -o none
 AAD_APP_SPID=$(az ad sp list --display-name $AAD_APP_NAME -o tsv --query [].objectId)
 
-#Update the TenantId, SubscriptionId and AppId in GitHub
+#Setup the ACR and allow acrpush RBAC access from the GH repo
+az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_APP_SPID roleDefinitionIdOrName=acrPush --query outputs
+
+#Update the Registry, TenantId, SubscriptionId and AppId in GitHub
 gh secret set AZURE_CLIENT_ID --body "$AAD_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
+gh secret set REGISTRY --body "$(az deployment group show -g $RG_NAME -n $RG_NAME -o tsv --query properties.outputs.loginServer.value)" --repo $GH_ORG/$GH_REPO
 
-#Setup the ACR and allow acrpush RBAC access from the GH repo
-az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_APP_SPID roleDefinitionIdOrName=acrPush --query outputs
