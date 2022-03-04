@@ -25,6 +25,7 @@ jobs:
 
     - name: 'Run az commands'
       run: |
+        az bicep install
         az bicep publish --file modules/acr/standard.bicep --target br:${{ secrets.REGISTRY }}/bicep/modules/storage:latest
     # - name: 'Checkout'
     #   uses: actions/checkout@v2
