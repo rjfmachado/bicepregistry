@@ -12,14 +12,15 @@ permissions:
 
 jobs:
   deploy:
-    name: 'Publish module'
+    name: 'Publish bicep module'
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout'
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: 'Az CLI login'
+
+    - name: 'Azure cli login'
       uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -29,15 +30,5 @@ jobs:
 
     - name: 'Run az commands'
       run: |
-        pwd
-        ls -l
         az bicep install
-        az bicep publish --file modules/acr/standard.bicep --target br:${{ secrets.REGISTRY }}/bicep/modules/storage:latest
-    # - name: 'Checkout'
-    #   uses: actions/checkout@v2
-    #   with:
-    #     fetch-depth: 0
-    # - name: 'Publish module'
-    #   uses: ./.github/templates/publishmodule
-    #   with:
-    #     templateFilePath: 'modules/acr/standard.bicep'
+        az bicep publish --file modules/acr/standard.bicep --target br:${{ secrets.REGISTRY }}/bicep/modules/acr.standard:latest
