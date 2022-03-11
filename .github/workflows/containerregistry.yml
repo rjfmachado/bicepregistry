@@ -44,6 +44,10 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
 
+    - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+
     - name: 'Publish module - tag'
       if: github.ref_type == 'tag'&& github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
