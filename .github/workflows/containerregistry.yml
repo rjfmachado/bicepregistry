@@ -15,6 +15,8 @@ on:
     paths:
       - modules/acr/**
       - .github/workflows/containerregistry.yml
+    tags:
+      - v*
 
 permissions:
       id-token: write
@@ -43,9 +45,28 @@ jobs:
         allow-no-subscriptions: true
 
     - name: 'Publish module'
+      if: github.ref_type == 'tag'&& github.ref == 'refs/heads/main'
+      uses: ./.github/templates/publishmodule
+      with:
+        moduleFile: 'modules/acr/standard.bicep'
+        targetRegistry: '${{ secrets.REGISTRY }}'
+        targetPath: 'bicep/modules/acr.standard'
+        moduleTag: '${{ github.ref_name }}'
+
+    - name: 'Publish module'
+      if: github.ref_type != 'tag' && github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
         moduleFile: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: 'latest'
+
+    - name: 'Publish module'
+      if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+      uses: ./.github/templates/publishmodule
+      with:
+        moduleFile: 'modules/acr/standard.bicep'
+        targetRegistry: '${{ secrets.REGISTRY }}'
+        targetPath: 'bicep/modules/acr.standard'
+        moduleTag: ${{ inputs.moduleTag }}
