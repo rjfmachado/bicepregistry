@@ -86,4 +86,4 @@ jobs:
         moduleFile: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
-        moduleTag: ${{ inputs.moduleTag }}
+        moduleTag: inputs.moduleTag
