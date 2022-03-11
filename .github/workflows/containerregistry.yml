@@ -26,7 +26,7 @@ defaults:
   run:
     shell: bash
 
-# jobs:
+jobs:
 #   dump_contexts_to_log:
 #     runs-on: ubuntu-latest
 #     steps:
