@@ -7,15 +7,15 @@ inputs:
     required: true
     type: string
   targetRegistry: 'Azure Container Registry'
-    description: 'Path to the bicep module file to publish'
+    description: 'fqdn of the target Azure Container Registry'
     required: true
     type: string
   targetPath:
-    description: 'Path to the bicep module file to publish'
+    description: 'Target repository path'
     required: true
     type: string
-  moduleVersion:
-    description: 'Path to the bicep module file to publish'
+  moduleTag:
+    description: 'Module tag'
     required: false
     default: 'latest'
     type: string
@@ -26,4 +26,4 @@ runs:
     - name: 'Deploy modules'
       run: |
         az bicep install
-        az bicep publish --file ${{ inputs.moduleFile }} --target br:${{ inputs.targetRegistry }}/${{ inputs.targetPath }}:${{ inputs.moduleVersion }}
+        az bicep publish --file ${{ inputs.moduleFile }} --target br:${{ inputs.targetRegistry }}/${{ inputs.targetPath }}:${{ inputs.moduleTag }}

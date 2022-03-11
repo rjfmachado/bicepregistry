@@ -37,4 +37,4 @@ jobs:
         modulePath: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
-        moduleVersion: 'latest'
+        moduleTag: 'latest'
