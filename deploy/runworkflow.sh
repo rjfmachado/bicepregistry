@@ -1,1 +1,1 @@
-gh workflow run 'Container Registry'
+gh workflow run %1

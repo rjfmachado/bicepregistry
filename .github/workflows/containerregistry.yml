@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   deploy:
-    name: 'Publish bicep module'
+    name: 'Publish Azure Container Registry module'
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout'
@@ -31,7 +31,10 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
 
-    - name: 'Run az commands'
-      run: |
-        az bicep install
-        az bicep publish --file modules/acr/standard.bicep --target br:${{ secrets.REGISTRY }}/bicep/modules/acr.standard:latest
+    - name: 'Publish module'
+        uses: ./.github/actions/templates/publishmodule
+        with:
+          modulePath: modules/acr/standard.bicep
+          targetRegistry: ${{ secrets.REGISTRY }}
+          targetPath: bicep/modules/acr.standard
+          moduleVersion: latest
