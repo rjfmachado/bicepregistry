@@ -13,6 +13,10 @@ permissions:
       id-token: write
       contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   deploy:
     name: 'Publish Azure Container Registry module'
