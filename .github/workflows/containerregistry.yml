@@ -27,6 +27,23 @@ defaults:
     shell: bash
 
 jobs:
+  dump_contexts_to_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+
   deploy:
     name: 'Publish Azure Container Registry module'
     runs-on: ubuntu-latest
@@ -43,10 +60,6 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
-
-    - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
 
     - name: 'Publish module - tag'
       if: github.ref_type == 'tag'&& github.ref == 'refs/heads/main'
