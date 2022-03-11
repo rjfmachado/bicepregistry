@@ -5,16 +5,20 @@ inputs:
   moduleFile:
     description: 'Path to the bicep module file to publish'
     required: true
+    type: string
   targetRegistry: 'Azure Container Registry'
     description: 'Path to the bicep module file to publish'
     required: true
+    type: string
   targetPath:
     description: 'Path to the bicep module file to publish'
     required: true
+    type: string
   moduleVersion:
     description: 'Path to the bicep module file to publish'
     required: false
     default: 'latest'
+    type: string
 
 runs:
   using: 'composite'
