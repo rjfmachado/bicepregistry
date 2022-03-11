@@ -44,7 +44,7 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
 
-    - name: 'Publish module'
+    - name: 'Publish module - tag'
       if: github.ref_type == 'tag'&& github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
@@ -53,7 +53,7 @@ jobs:
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: '${{ github.ref_name }}'
 
-    - name: 'Publish module'
+    - name: 'Publish module - main branch'
       if: github.ref_type != 'tag' && github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
@@ -62,7 +62,7 @@ jobs:
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: 'latest'
 
-    - name: 'Publish module'
+    - name: 'Publish module - manual'
       if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
