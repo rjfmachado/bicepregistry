@@ -6,10 +6,13 @@ inputs:
     description: 'Path to the bicep module file to publish'
     required: true
   targetRegistry: 'Azure Container Registry'
+    description: 'Path to the bicep module file to publish'
     required: true
   targetPath:
+    description: 'Path to the bicep module file to publish'
     required: true
   moduleVersion:
+    description: 'Path to the bicep module file to publish'
     required: false
     default: 'latest'
     type: string
