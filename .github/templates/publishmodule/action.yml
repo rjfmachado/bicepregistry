@@ -11,7 +11,7 @@ inputs:
     required: true
   moduleVersion:
     required: false
-    default: latest
+    default: 'latest'
     type: string
 
 runs:
