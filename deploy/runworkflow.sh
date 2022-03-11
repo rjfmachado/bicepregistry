@@ -1,1 +1,1 @@
-gh workflow run %1
+gh workflow run
