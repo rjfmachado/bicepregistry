@@ -15,7 +15,6 @@ inputs:
     description: 'Path to the bicep module file to publish'
     required: false
     default: 'latest'
-    type: string
 
 runs:
   using: 'composite'
