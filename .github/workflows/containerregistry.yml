@@ -2,6 +2,13 @@ name: 'Container Registry'
 
 on:
   workflow_dispatch:
+    inputs:
+      moduleTag:
+        description: 'Module tag'
+        required: false
+        default: 'latest'
+        type: string
+
   push:
     branches:
       - main
