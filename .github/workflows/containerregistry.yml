@@ -38,7 +38,7 @@ jobs:
     - name: 'Publish module'
       uses: ./.github/templates/publishmodule
       with:
-        modulePath: 'modules/acr/standard.bicep'
+        moduleFile: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: 'latest'
