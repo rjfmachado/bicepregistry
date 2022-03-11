@@ -6,7 +6,7 @@ inputs:
     description: 'Path to the bicep module file to publish'
     required: true
     type: string
-  targetRegistry: 'Azure Container Registry'
+  targetRegistry:
     description: 'fqdn of the target Azure Container Registry'
     required: true
     type: string
