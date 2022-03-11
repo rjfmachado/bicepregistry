@@ -32,9 +32,9 @@ jobs:
         allow-no-subscriptions: true
 
     - name: 'Publish module'
-        uses: .github/templates/publishmodule
-        with:
-          modulePath: 'modules/acr/standard.bicep'
-          targetRegistry: ${{ secrets.REGISTRY }}
-          targetPath: 'bicep/modules/acr.standard'
-          moduleVersion: 'latest'
+      uses: .github/templates/publishmodule
+      with:
+        modulePath: 'modules/acr/standard.bicep'
+        targetRegistry: ${{ secrets.REGISTRY }}
+        targetPath: 'bicep/modules/acr.standard'
+        moduleVersion: 'latest'
