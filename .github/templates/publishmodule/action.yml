@@ -28,6 +28,7 @@ runs:
   using: 'composite'
   steps:
     - name: 'Deploy modules'
+      shell: bash
       run: |
         az bicep install
         az bicep publish --file ${{ inputs.moduleFile }} --target br:${{ inputs.targetRegistry }}/${{ inputs.targetPath }}:${{ inputs.moduleTag }}
