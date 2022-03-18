@@ -1,5 +1,8 @@
-# 
+# Bicep Module Private Registry with GitHub OIDC authentication
 
-https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust-github?tabs=azure-portal
+A secretless implementation of a Bicep module registry using [GitHub Open ID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure)
 
-https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust
+TODO:
+
+[ ] - Support for GitHub Releases, waiting on [Federated identity credentials support for wildcards #373](https://github.com/Azure/azure-workload-identity/issues/373)
+
