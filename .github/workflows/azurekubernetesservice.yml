@@ -1,4 +1,4 @@
-name: 'Container Registry'
+name: 'AKS'
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ on:
     branches:
       - main
     paths:
-      - modules/acr/**
-      - .github/workflows/containerregistry.yml
+      - modules/aks/**
+      - .github/workflows/azurekubernetesservice.yml
     # tags:
     #   - v*
 
@@ -45,7 +45,7 @@ jobs:
   #       run: echo '${{ toJSON(matrix) }}'
 
   deploy:
-    name: 'Publish Azure Container Registry modules'
+    name: 'Publish Azure Kubernetes Service modules'
     runs-on: ubuntu-latest
     #environment: Microsoft
     steps:
@@ -62,29 +62,29 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
 
-    - name: 'Publish module - (ACR Standard) - tag'
+    - name: 'Publish module - (AKS - Public, CNI, RBAC) - tag'
       if: github.ref_type == 'tag'
       uses: ./.github/templates/publishmodule
       with:
-        moduleFile: 'modules/acr/standard.bicep'
+        moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
-        targetPath: 'bicep/modules/acr.standard'
+        targetPath: 'bicep/modules/aks.public.cni.rbac'
         moduleTag: github.ref_name
 
-    - name: 'Publish module - (ACR Standard) - main branch'
+    - name: 'Publish module - (AKS - Public, CNI, RBAC) - main branch'
       if: github.ref_type != 'tag' && github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
       uses: ./.github/templates/publishmodule
       with:
-        moduleFile: 'modules/acr/standard.bicep'
+        moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
-        targetPath: 'bicep/modules/acr.standard'
+        targetPath: 'bicep/modules/aks.public.cni.rbac'
         moduleTag: 'latest'
 
-    - name: 'Publish module - (ACR Standard) - manual'
+    - name: 'Publish module - (AKS - Public, CNI, RBAC) - manual'
       if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
-        moduleFile: 'modules/acr/standard.bicep'
+        moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
-        targetPath: 'bicep/modules/acr.standard'
+        targetPath: 'bicep/modules/aks.public.cni.rbac'
         moduleTag: inputs.moduleTag
