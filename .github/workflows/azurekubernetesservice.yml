@@ -69,7 +69,7 @@ jobs:
         moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/aks.public.cni.rbac'
-        moduleTag: github.ref_name
+        moduleTag: ${{ github.ref_name }}
 
     - name: 'Publish module - (AKS - Public, CNI, RBAC) - main branch'
       if: github.ref_type != 'tag' && github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
@@ -87,4 +87,4 @@ jobs:
         moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/aks.public.cni.rbac'
-        moduleTag: inputs.moduleTag
+        moduleTag: ${{ inputs.moduleTag }}

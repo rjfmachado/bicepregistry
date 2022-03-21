@@ -69,7 +69,7 @@ jobs:
         moduleFile: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
-        moduleTag: github.ref_name
+        moduleTag: ${{ github.ref_name }}
 
     - name: 'Publish module - (ACR Standard) - main branch'
       if: github.ref_type != 'tag' && github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
@@ -87,4 +87,4 @@ jobs:
         moduleFile: 'modules/acr/standard.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/acr.standard'
-        moduleTag: inputs.moduleTag
+        moduleTag: ${{ inputs.moduleTag }}
