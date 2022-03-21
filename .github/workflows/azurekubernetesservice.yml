@@ -1,4 +1,4 @@
-name: 'AKS'
+name: 'Azure Kubernetes Service'
 
 on:
   workflow_dispatch:
