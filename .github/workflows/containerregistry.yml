@@ -27,25 +27,25 @@ defaults:
     shell: bash
 
 jobs:
-  dump_contexts_to_log:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}'
+  # dump_contexts_to_log:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Dump GitHub context
+  #       id: github_context_step
+  #       run: echo '${{ toJSON(github) }}'
+  #     - name: Dump job context
+  #       run: echo '${{ toJSON(job) }}'
+  #     - name: Dump steps context
+  #       run: echo '${{ toJSON(steps) }}'
+  #     - name: Dump runner context
+  #       run: echo '${{ toJSON(runner) }}'
+  #     - name: Dump strategy context
+  #       run: echo '${{ toJSON(strategy) }}'
+  #     - name: Dump matrix context
+  #       run: echo '${{ toJSON(matrix) }}'
 
   deploy:
-    name: 'Publish Azure Container Registry module'
+    name: 'Publish Azure Container Registry modules'
     runs-on: ubuntu-latest
     #environment: Microsoft
     steps:
@@ -62,7 +62,7 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: true
 
-    - name: 'Publish module - tag'
+    - name: 'Publish module - (ACR Standard) - tag'
       if: github.ref_type == 'tag'
       uses: ./.github/templates/publishmodule
       with:
@@ -71,7 +71,7 @@ jobs:
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: github.ref_name
 
-    - name: 'Publish module - main branch'
+    - name: 'Publish module - (ACR Standard) - main branch'
       if: github.ref_type != 'tag' && github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
       uses: ./.github/templates/publishmodule
       with:
@@ -80,7 +80,7 @@ jobs:
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: 'latest'
 
-    - name: 'Publish module - manual'
+    - name: 'Publish module - (ACR Standard) - manual'
       if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
       uses: ./.github/templates/publishmodule
       with:
