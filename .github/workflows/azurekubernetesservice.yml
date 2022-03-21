@@ -87,4 +87,4 @@ jobs:
         moduleFile: 'modules/aks/public-cni-rbac.bicep'
         targetRegistry: '${{ secrets.REGISTRY }}'
         targetPath: 'bicep/modules/aks.public.cni.rbac'
-        moduleTag: ${{ inputs.moduleTag }}
+        moduleTag: ${{ github.event.inputs.moduleTag }}
