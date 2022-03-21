@@ -4,5 +4,5 @@ A secretless implementation of a Bicep module registry using [GitHub Open ID Con
 
 TODO:
 
-- [ ] - Support for GitHub Releases, waiting on [Federated identity credentials support for wildcards #373](https://github.com/Azure/azure-workload-identity/issues/373)
+- [ ] Support for GitHub Releases, waiting on [Federated identity credentials support for wildcards #373](https://github.com/Azure/azure-workload-identity/issues/373)
 
