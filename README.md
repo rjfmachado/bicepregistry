@@ -21,6 +21,8 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
   AAD_ACRPUSH_APP_NAME='bicepregistryacrpush'
   ```
 
+6. Run the deploy/deploy.sh script
+
 ## Requirements
 
 - jq
