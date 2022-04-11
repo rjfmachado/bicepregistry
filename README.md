@@ -13,7 +13,7 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
   ```
 3. Set the target Resource Group by configuring the environment variable AZURE_RG_NAME (default:bicepregistry)
 4. Set the Azure Region by configuring the environment variable AZURE_LOCATION (default:westeurope)
-5. Set the Azure AD Application names for both the deployment credential and the Module Push credential.
+5. Set the Azure AD Application names for both the deployment credential and the Module Push credential (defaults: bicepregistrydeploy and bicepregistryacrpush)
   ```bash
   AZURE_RG_NAME='bicepregistry'
   AZURE_LOCATION='westeurope'
