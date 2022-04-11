@@ -53,5 +53,5 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         resourceGroupName: ${{ secrets.AZURE_RG_NAME }}
         template: ./infra/acr.bicep
-        parameters: location=${{ secrets.AZURE_LOCATION }} principalId=${{ secrets.AZURE_ACRPUSH_CLIENT_ID }} roleDefinitionIdOrName=acrPush
+        parameters: location=${{ secrets.AZURE_LOCATION }} principalId=${{ secrets.AZURE_ACRPUSH_CLIENT_ID }} roleDefinitionIdOrName=acrPush name=${{ secrets.AZURE_ACR_NAME }}
         failOnStdErr: false
