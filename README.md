@@ -16,11 +16,11 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
 5. Set the Azure AD Application names for both the deployment credential and the Module Push credential (defaults: bicepregistrydeploy and bicepregistryacrpush)
 6. Set the Azure Container Registry name. This is required to be globally unique and defaults to a random name.
   ```bash
-  AZURE_RG_NAME='bicepregistry'
-  AZURE_LOCATION='westeurope'
-  AAD_DEPLOY_APP_NAME='bicepregistrydeploy'
-  AAD_ACRPUSH_APP_NAME='bicepregistryacrpush'
-  AZURE_ACR_NAME=$(echo $RANDOM | md5sum | head -c 20)
+  export AZURE_RG_NAME='bicepregistry'
+  export AZURE_LOCATION='westeurope'
+  export AAD_DEPLOY_APP_NAME='bicepregistrydeploy'
+  export AAD_ACRPUSH_APP_NAME='bicepregistryacrpush'
+  export AZURE_ACR_NAME=$(echo $RANDOM | md5sum | head -c 20)
   ```
 
 6. Run the deploy/deploy.sh script
