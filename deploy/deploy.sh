@@ -27,16 +27,12 @@ AAD_ACRPUSH_APP_SPID=$(az ad sp list --display-name $AAD_ACRPUSH_APP_NAME -o tsv
 
 # Allow the Deploy app Owner access to the Resource Group
 az role assignment create --assignee $AAD_DEPLOY_APP_SPID --role "Owner" --resource-group $AZURE_RG_NAME
+
 # Allow the ACR Push app read access to the ACR
 az role assignment create --assignee $AAD_ACRPUSH_APP_SPID --role "Reader" --resource-group $AZURE_RG_NAME
 
-
-#Setup the ACR and allow acrpush RBAC access from the GH repo
-# az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_ACR_PUSHAPP_SPID roleDefinitionIdOrName=acrPush --query outputs
-
-#Update the Registry, TenantId, SubscriptionId and AppId in GitHub
+#Update the Registry, TenantId, SubscriptionId and AppId's in GitHub
 gh secret set AZURE_ACRPUSH_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_DEPLOY_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
-
