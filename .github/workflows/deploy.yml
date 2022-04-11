@@ -46,3 +46,12 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         allow-no-subscriptions: false
+
+    - name: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RG_NAME }}
+        template: ./infra/acr.bicep
+        parameters: location=${{ secrets.AZURE_LOCATION }} principalId=${{ secrets.AZURE_ACRPUSH_CLIENT_ID }} roleDefinitionIdOrName=acrPush
+        failOnStdErr: false
