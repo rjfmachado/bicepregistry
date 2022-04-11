@@ -22,7 +22,7 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
   export AZURE_LOCATION='westeurope'
   export AAD_DEPLOY_APP_NAME='bicepregistrydeploy'
   export AAD_ACRPUSH_APP_NAME='bicepregistryacrpush'
-  export AZURE_ACR_NAME=$(echo $RANDOM | md5sum | head -c 20)
+  export AZURE_ACR_NAME=$(echo $RANDOM | md5sum | head -c32)
   ```
 
 6. Run the ./deploy/deploy.sh script
