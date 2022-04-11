@@ -1,37 +1,43 @@
-GH_ORG='rjfmachado'
-GH_REPO='bicepregistry'
-GH_ENTITY_TYPE='Branch'
-GH_ENTITY_NAME='main'
-#GH_RELEASE='v0.0.6'
-RG_NAME='ricardmabicep'
-LOCATION='westeurope'
-AAD_APP_NAME='ricardmabicepregistrypush'
-
-#Create the AAD app to setup federated identity with GH
-az ad app create --display-name $AAD_APP_NAME -o none
-AAD_APP_OID=$(az ad app list --display-name $AAD_APP_NAME -o tsv --query [].objectId)
-AAD_APP_APPID=$(az ad app list --display-name $AAD_APP_NAME -o tsv --query [].appId)
+# Get the current subscription id, tenant id, and Github organization and repository
+GH_ORG=$(gh repo view --json nameWithOwner | jq .nameWithOwner | sed 's/\"//g' | cut -d'/' -f1)
+GH_REPO=$(gh repo view --json nameWithOwner | jq .nameWithOwner | sed 's/\"//g' | cut -d'/' -f2)
+GH_DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef | jq .defaultBranchRef.name | sed 's/\"//g')
 AAD_TENANT_ID=$(az account show -o tsv --query tenantId)
 AZURE_SUBSCRIPTION_ID=$(az account show -o tsv --query id)
 
-#Setup the OIDC filter to the main branch
-az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_APP_OID/federatedIdentityCredentials" --body "{\"name\":\"mainbranch\",\"issuer\":\"https://token.actions.githubusercontent.com\",\"subject\":\"repo:$GH_ORG/$GH_REPO:ref:refs/heads/$GH_ENTITY_NAME\",\"description\":\"GitHub\",\"audiences\":[\"api://AzureADTokenExchange\"]}" -o none
+# Create the Deploy AAD app and setup federated identity with GitHub
+az ad app create --display-name $AAD_DEPLOY_APP_NAME -o none
+AAD_DEPLOY_APP_OID=$(az ad app list --display-name $AAD_DEPLOY_APP_NAME -o tsv --query [].objectId)
+AAD_DEPLOY_APP_APPID=$(az ad app list --display-name $AAD_DEPLOY_APP_NAME -o tsv --query [].appId)
+az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_DEPLOY_APP_OID/federatedIdentityCredentials" --body "{\"name\":\"mainbranch\",\"issuer\":\"https://token.actions.githubusercontent.com\",\"subject\":\"repo:$GH_ORG/$GH_REPO:ref:refs/heads/$GH_DEFAULT_BRANCH\",\"description\":\"GitHub\",\"audiences\":[\"api://AzureADTokenExchange\"]}" -o none
 
-#az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_APP_OID/federatedIdentityCredentials" --body "{\"name\":\"tagv004\",\"issuer\":\"https://token.actions.githubusercontent.com\",\"subject\":\"repo:$GH_ORG/$GH_REPO:ref:refs/tags/$GH_RELEASE\",\"description\":\"GitHub\",\"audiences\":[\"api://AzureADTokenExchange\"]}" -o none
-#repo:{Organization}/{Repository}:ref:refs/heads/{Branch}
-#repo:{Organization}/{Repository}:pull_request
-#repo:{Organization}/{Repository}:ref:refs/tags/{Tag}
+# Setup a Service Principal in the app, it's required for Azure RBAC. Note there's no secret added due to OIDC.
+az ad sp create --id $AAD_DEPLOY_APP_APPID -o none
+AAD_DEPLOY_APP_SPID=$(az ad sp list --display-name $AAD_DEPLOY_APP_NAME -o tsv --query [].objectId)
+
+# Create the ACR Push AAD app and setup federated identity with GitHub
+az ad app create --display-name $AAD_ACRPUSH_APP_NAME -o none
+AAD_ACRPUSH_APP_OID=$(az ad app list --display-name $AAD_ACRPUSH_APP_NAME -o tsv --query [].objectId)
+AAD_ACRPUSH_APP_APPID=$(az ad app list --display-name $AAD_ACRPUSH_APP_NAME -o tsv --query [].appId)
+az rest --method POST --uri "https://graph.microsoft.com/beta/applications/$AAD_ACRPUSH_APP_OID/federatedIdentityCredentials" --body "{\"name\":\"mainbranch\",\"issuer\":\"https://token.actions.githubusercontent.com\",\"subject\":\"repo:$GH_ORG/$GH_REPO:ref:refs/heads/$GH_DEFAULT_BRANCH\",\"description\":\"GitHub\",\"audiences\":[\"api://AzureADTokenExchange\"]}" -o none
 
 #setup a Service Principal in the app, it's required for Azure RBAC. Note there's no secret added due to OIDC.
-az ad sp create --id $AAD_APP_APPID -o none
-AAD_APP_SPID=$(az ad sp list --display-name $AAD_APP_NAME -o tsv --query [].objectId)
+az ad sp create --id $AAD_ACRPUSH_APP_APPID -o none
+AAD_ACRPUSH_APP_SPID=$(az ad sp list --display-name $AAD_ACRPUSH_APP_NAME -o tsv --query [].objectId)
 
-#Setup the ACR and allow acrpush RBAC access from the GH repo
-az deployment sub create --template-file ~/dev/github.com/rjfmachado/bicepregistry/infra/bicepacr.bicep --location westeurope -o table --parameters name=$RG_NAME location=$LOCATION principalId=$AAD_APP_SPID roleDefinitionIdOrName=acrPush --query outputs
+# Create the Target Resource Group
+az group create --name $AZURE_RG_NAME --location $AZURE_LOCATION -o none
 
-#Update the Registry, TenantId, SubscriptionId and AppId in GitHub
-gh secret set AZURE_CLIENT_ID --body "$AAD_APP_APPID" --repo $GH_ORG/$GH_REPO
+# Allow the Deploy app Owner access to the Resource Group
+az role assignment create --assignee $AAD_DEPLOY_APP_SPID --role "Owner" --resource-group $AZURE_RG_NAME -o none
+
+# Allow the ACR Push app read access to the ACR
+az role assignment create --assignee $AAD_ACRPUSH_APP_SPID --role "Reader" --resource-group $AZURE_RG_NAME -o none
+
+# Update the Registry, TenantId, SubscriptionId and AppId's in GitHub
+gh secret set AZURE_ACRPUSH_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
+gh secret set AZURE_DEPLOY_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
-gh secret set REGISTRY --body "$(az deployment group show -g $RG_NAME -n $RG_NAME -o tsv --query properties.outputs.loginServer.value)" --repo $GH_ORG/$GH_REPO
-
+gh secret set AZURE_RG_NAME --body "$AZURE_RG_NAME" --repo $GH_ORG/$GH_REPO
+gh secret set AZURE_ACR_NAME --body "$AZURE_ACR_NAME" --repo $GH_ORG/$GH_REPO

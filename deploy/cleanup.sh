@@ -1,5 +1,5 @@
 RG_NAME='ricardmabicep'
-AAD_APP_NAME='ricardmabicepregistrypush'
+AAD_APP_NAME='bicepregistrypush'
 
 az group delete -n $RG_NAME --yes
 AAD_APP_APPID=$(az ad app list --display-name $AAD_APP_NAME -o tsv --query [].appId)
