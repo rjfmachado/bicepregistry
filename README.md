@@ -25,7 +25,20 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
   export AZURE_ACR_NAME=$(echo $RANDOM | md5sum | head -c32)
   ```
 
-6. Run the ./deploy/deploy.sh script
+6. Run the deployment pre-requisites script
+  ```bash
+  ./deploy/deploy.sh
+  ```
+
+7. Run the solution deployment workflow
+  ```bash
+  gh workflow run deploy.yml
+  ```
+
+8. Optionally, run the individual module deployment workflows
+  ```
+  gh workflow run
+  ```
 
 ## Requirements
 
