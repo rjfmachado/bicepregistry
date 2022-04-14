@@ -41,3 +41,4 @@ gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_O
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_RG_NAME --body "$AZURE_RG_NAME" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_ACR_NAME --body "$AZURE_ACR_NAME" --repo $GH_ORG/$GH_REPO
+gh secret set AZURE_LOCATION --body "$AZURE_LOCATION" --repo $GH_ORG/$GH_REPO

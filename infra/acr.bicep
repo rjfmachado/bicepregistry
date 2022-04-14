@@ -56,16 +56,6 @@ resource acrroleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-p
   scope: acr
 }
 
-// resource rgroleAssignment 'Microsoft.Authorization/roleAssignments@2021-04-01-preview' = {
-//   name: guid(resourceGroup().name, principalId, 'Reader')
-//   properties: {
-//     roleDefinitionId: builtInRoleNames.Reader
-//     principalId: principalId
-//     principalType: 'servicePrincipal'
-//   }
-//   scope: resourceGroup()
-// }
-
 output name string = acr.name
 output loginServer string = acr.properties.loginServer
 output id string = acr.id
