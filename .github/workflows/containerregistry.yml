@@ -67,7 +67,7 @@ jobs:
       uses: ./.github/templates/publishmodule
       with:
         moduleFile: 'modules/acr/standard.bicep'
-        targetRegistry: '${{ secrets.REGISTRY }}'
+        targetRegistry: '${{ secrets.AZURE_ACR_NAME }}'
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: ${{ github.ref_name }}
 
@@ -76,7 +76,7 @@ jobs:
       uses: ./.github/templates/publishmodule
       with:
         moduleFile: 'modules/acr/standard.bicep'
-        targetRegistry: '${{ secrets.REGISTRY }}'
+        targetRegistry: '${{ secrets.AZURE_ACR_NAME }}'
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: 'latest'
 
@@ -85,6 +85,6 @@ jobs:
       uses: ./.github/templates/publishmodule
       with:
         moduleFile: 'modules/acr/standard.bicep'
-        targetRegistry: '${{ secrets.REGISTRY }}'
+        targetRegistry: '${{ secrets.AZURE_ACR_NAME }}'
         targetPath: 'bicep/modules/acr.standard'
         moduleTag: ${{ github.event.inputs.moduleTag }}
