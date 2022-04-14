@@ -6,7 +6,7 @@ The solution deploys Azure Container Registry and configures Azure Role Based Ac
 
 ## Deploy the solution
 
->>> Guidance/Scripts are Linux/bash.
+> Guidance/Scripts are Linux/bash.
 
 1. Configure the GitHub cli to access your GitHub account.
 2. Login to your target subscription with Azure CLI and ensure it's the current default subscription.
