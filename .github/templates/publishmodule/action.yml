@@ -31,4 +31,4 @@ runs:
       shell: bash
       run: |
         az bicep install
-        az bicep publish --file ${{ inputs.moduleFile }} --target br:${{ inputs.targetRegistry }}/${{ inputs.targetPath }}:${{ inputs.moduleTag }}
+        az bicep publish --file ${{ inputs.moduleFile }} --target br:${{ inputs.targetRegistry }}.azurecr.io/${{ inputs.targetPath }}:${{ inputs.moduleTag }}
