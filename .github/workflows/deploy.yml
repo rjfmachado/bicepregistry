@@ -32,7 +32,6 @@ jobs:
   deploy:
     name: 'Deploy Solution'
     runs-on: ubuntu-latest
-    #environment: Microsoft
     steps:
     - name: 'Checkout'
       uses: actions/checkout@v2

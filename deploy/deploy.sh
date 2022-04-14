@@ -36,7 +36,7 @@ az role assignment create --assignee $AAD_ACRPUSH_APP_SPID --role "Reader" --res
 
 # Update the Registry, TenantId, SubscriptionId and AppId's in GitHub
 gh secret set AZURE_ACRPUSH_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
-gh secret set AZURE_DEPLOY_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
+gh secret set AZURE_DEPLOY_CLIENT_ID --body "$AAD_DEPLOY_APP_APPID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_SUBSCRIPTION_ID --body "$AZURE_SUBSCRIPTION_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_TENANT_ID --body "$AAD_TENANT_ID" --repo $GH_ORG/$GH_REPO
 gh secret set AZURE_RG_NAME --body "$AZURE_RG_NAME" --repo $GH_ORG/$GH_REPO
