@@ -32,7 +32,7 @@ az group create --name $AZURE_RG_NAME --location $AZURE_LOCATION -o none
 az role assignment create --assignee $AAD_DEPLOY_APP_SPID --role "Owner" --resource-group $AZURE_RG_NAME -o none
 
 # Allow the ACR Push app read access to the ACR
-az role assignment create --assignee $AAD_ACRPUSH_APP_SPID --role "Reader" --resource-group $AZURE_RG_NAME -o none
+# az role assignment create --assignee $AAD_ACRPUSH_APP_SPID --role "Reader" --resource-group $AZURE_RG_NAME -o none
 
 # Update the Registry, TenantId, SubscriptionId and AppId's in GitHub
 gh secret set AZURE_ACRPUSH_CLIENT_ID --body "$AAD_ACRPUSH_APP_APPID" --repo $GH_ORG/$GH_REPO
