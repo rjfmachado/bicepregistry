@@ -2,7 +2,7 @@
 
 A secretless implementation of a Bicep module registry using [GitHub Open ID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure) and [Azure AD workload identity federation](https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust-github?tabs=azure-portal).
 
-The solution deploys Azure Container Registry and configures Azure Role Based Access Control to allow the GitHub Repository to push bicep modules to it through OIDC. However, the deployment workflow and approach can be reused to most support many other Azure deployment scenarios.
+The solution deploys Azure Container Registry and configures Azure Role Based Access Control to allow the GitHub Repository to push bicep modules to it through OIDC. However, the deployment workflow and approach can be reused to support many other Azure deployment scenarios.
 
 ## Deploy the solution
 
